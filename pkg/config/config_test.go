@@ -821,8 +821,8 @@ image_copy_tmp_dir="storage"`
 			gomega.Expect(err).ShouldNot(gomega.HaveOccurred())
 			gomega.Expect(m).To(gomega.Equal(false))
 
-			gomega.Expect(u).To(gomega.Equal("foo.bar"))
-			gomega.Expect(i).To(gomega.Equal("/.ssh/newid_rsa"))
+			gomega.Expect(u).To(gomega.Equal("https://qa/run/podman/podman.sock"))
+			gomega.Expect(i).To(gomega.Equal("/.ssh/id_rsa"))
 		})
 
 		It("fail ActiveDestination() no configuration", func() {

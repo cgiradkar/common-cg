@@ -1101,12 +1101,6 @@ func Reload() (*Config, error) {
 }
 
 func (c *Config) ActiveDestination() (uri, identity string, machine bool, err error) {
-	if uri, found := os.LookupEnv("CONTAINER_HOST"); found {
-		if v, found := os.LookupEnv("CONTAINER_SSHKEY"); found {
-			identity = v
-		}
-		return uri, identity, false, nil
-	}
 	connEnv := os.Getenv("CONTAINER_CONNECTION")
 	switch {
 	case connEnv != "":
@@ -1124,6 +1118,12 @@ func (c *Config) ActiveDestination() (uri, identity string, machine bool, err er
 		return d.URI, d.Identity, d.IsMachine, nil
 	case c.Engine.RemoteURI != "":
 		return c.Engine.RemoteURI, c.Engine.RemoteIdentity, false, nil
+	}
+	if uri, found := os.LookupEnv("CONTAINER_HOST"); found {
+		if v, found := os.LookupEnv("CONTAINER_SSHKEY"); found {
+			identity = v
+		}
+		return uri, identity, false, nil
 	}
 	return "", "", false, errors.New("no service destination configured")
 }
